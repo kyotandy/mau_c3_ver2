@@ -6,8 +6,7 @@
                 "${workspaceFolder}/**",
                 "/opt/ros/noetic/include",
                 "/usr/include/opencv4",
-                "/path/to/MvCameraControlSDK/include",
-                "${workspaceFolder}/devel/include",
+                "/home/kyota/Downloads/MVS_STD_GML_V2.1.2_221208/MVS-2.1.2_x86_64_20221208/MVS/include",
                 "${workspaceFolder}/src/**"
             ],
             "defines": [],
@@ -19,7 +18,7 @@
                 "path": [
                     "/opt/ros/noetic/include",
                     "/usr/include/opencv4",
-                    "/path/to/MvCameraControlSDK/include",
+                    "/home/kyota/Downloads/MVS_STD_GML_V2.1.2_221208/MVS-2.1.2_x86_64_20221208/MVS/include",
                     "${workspaceFolder}/src"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
