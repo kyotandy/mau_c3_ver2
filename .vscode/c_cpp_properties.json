@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "ROS",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/ros/noetic/include",
+                "/usr/include/opencv4",
+                "/path/to/MvCameraControlSDK/include",
+                "${workspaceFolder}/devel/include",
+                "${workspaceFolder}/src/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "linux-gcc-x64",
+            "browse": {
+                "path": [
+                    "/opt/ros/noetic/include",
+                    "/usr/include/opencv4",
+                    "/path/to/MvCameraControlSDK/include",
+                    "${workspaceFolder}/src"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}

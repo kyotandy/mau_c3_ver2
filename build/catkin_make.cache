@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/kyota/mau_c3_ver2/devel -DCMAKE_INSTALL_PREFIX=/home/kyota/mau_c3_ver2/install -G Unix Makefiles
