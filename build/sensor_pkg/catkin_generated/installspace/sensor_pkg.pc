@@ -1,0 +1,8 @@
+prefix=/home/kyota/mau_c3_ver2/install
+
+Name: sensor_pkg
+Description: Description of sensor_pkg
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: cv_bridge image_transport roscpp sensor_msgs

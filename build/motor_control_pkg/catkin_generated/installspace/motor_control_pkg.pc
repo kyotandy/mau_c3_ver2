@@ -1,0 +1,8 @@
+prefix=/home/kyota/mau_c3_ver2/install
+
+Name: motor_control_pkg
+Description: Description of motor_control_pkg
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

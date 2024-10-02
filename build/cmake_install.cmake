@@ -131,6 +131,9 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/kyota/mau_c3_ver2/build/gtest/cmake_install.cmake")
+  include("/home/kyota/mau_c3_ver2/build/motor_control_pkg/cmake_install.cmake")
+  include("/home/kyota/mau_c3_ver2/build/logic_pkg/cmake_install.cmake")
+  include("/home/kyota/mau_c3_ver2/build/sensor_pkg/cmake_install.cmake")
 
 endif()
 
