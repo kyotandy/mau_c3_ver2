@@ -52,3 +52,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/motor_control_pkg" TYPE FILE FILES "/home/kyota/mau_c3_ver2/src/motor_control_pkg/package.xml")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/motor_control_pkg" TYPE PROGRAM FILES "/home/kyota/mau_c3_ver2/build/motor_control_pkg/catkin_generated/installspace/wheel_node.py")
+endif()
+

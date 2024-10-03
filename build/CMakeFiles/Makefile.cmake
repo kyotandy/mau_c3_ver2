@@ -26,6 +26,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/kyota/mau_c3_ver2/src/logic_pkg/src/navigator.py"
   "/home/kyota/mau_c3_ver2/src/motor_control_pkg/CMakeLists.txt"
   "/home/kyota/mau_c3_ver2/src/motor_control_pkg/package.xml"
+  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/src/wheel_node.py"
   "/home/kyota/mau_c3_ver2/src/sensor_pkg/CMakeLists.txt"
   "/home/kyota/mau_c3_ver2/src/sensor_pkg/package.xml"
   "/opt/ros/noetic/share/catkin/cmake/all.cmake"
