@@ -8,8 +8,8 @@ from pymodbus.constants import Endian
 
 class WheelNode:
     def __init__(self):
-        self.right_slave = 8
-        self.left_slave = 9
+        self.left_slave = 8
+        self.right_slave = 9
 
         # Initialize the node
         rospy.init_node('wheel_node', anonymous=True)  
