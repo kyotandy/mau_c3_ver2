@@ -24,6 +24,7 @@ class ImageSubscriber:
 
         # Pixel to mm conversion factor (1 pixel = 0.05 mm)
         self.pixel_to_mm = 0.05
+        self.camera_tire_gap_mm = 100
 
     def callback(self, data):
         try:
@@ -57,8 +58,8 @@ class ImageSubscriber:
         edges = cv2.Canny(mask, 50, 150)
         lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 100, minLineLength=100, maxLineGap=10)
 
-        offset_mm = 0
-        angle_deg = 0
+        camera_offset_mm = 0
+        camera_angle_deg = 0
 
         # Draw only one detected line and calculate offset and angle
         if lines is not None and len(lines) > 0:
@@ -72,26 +73,30 @@ class ImageSubscriber:
 
             # Calculate the offset from the center of the image in mm
             offset_x = line_mid_x - image_center_x
-            offset_mm = offset_x * self.pixel_to_mm
+            camera_offset_mm = offset_x * self.pixel_to_mm
 
             # Calculate the angle of the line with respect to the y-axis
             if (y2 - y1) != 0:
-                angle_rad = math.atan2(x2 - x1, y2 - y1)  # Swap x and y for angle with respect to y-axis
+                camera_angle_rad = math.atan2(x2 - x1, y2 - y1)  # Swap x and y for angle with respect to y-axis
                 # Convert to degrees and adjust sign for clockwise/anti-clockwise convention
-                angle_deg = math.degrees(angle_rad)
+                camera_angle_deg = math.degrees(camera_angle_rad)
                 # Normalize angle to range [-90, 90]
-                if angle_deg > 90:
-                    angle_deg -= 180
-                elif angle_deg < -90:
-                    angle_deg += 180
+                if camera_angle_deg > 90:
+                    camera_angle_deg -= 180
+                elif camera_angle_deg < -90:
+                    camera_angle_deg += 180
+            
+            # calculate robot position offset and angle
+            robot_offset_mm = camera_offset_mm - self.camera_tire_gap_mm * math.tan(abs(camera_angle_deg))
+            robot_angle_deg = camera_angle_deg
 
             # Display the offset and angle on the image
-            text = f"Offset: {offset_mm:.2f} mm, Angle: {angle_deg:.2f} degrees"
+            text = f"Offset: {robot_offset_mm:.2f} mm, Angle: {robot_angle_deg:.2f} degrees"
             cv2.putText(cv_image, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
             # Prepare the data to publish
             data_msg = Float32MultiArray()
-            data_msg.data = [offset_mm, angle_deg]
+            data_msg.data = [robot_offset_mm, robot_angle_deg]
             self.data_pub.publish(data_msg)
 
         # Display the image with the detected line, offset, angle, and cross
