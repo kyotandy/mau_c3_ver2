@@ -1,7 +1,11 @@
 #!/usr/bin/env python
+import numpy as np
 
 import rospy
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
 from std_msgs.msg import Float32MultiArray, Int32MultiArray, String
+
 
 
 # define robot status
@@ -45,6 +49,40 @@ wheel_status_dict = {
     'WHEEL_RIGHT': '2',
     'WHEEL_LEFT': '3'
 }
+
+
+# ファジィ変数の定義
+offset = ctrl.Antecedent(np.arange(-50, 51, 1), 'offset')  # 中心からの距離のずれ
+angle = ctrl.Antecedent(np.arange(-45, 46, 1), 'angle')  # y方向の角度のずれ
+motor_speed = ctrl.Consequent(np.arange(-100, 101, 1), 'motor_speed')  # 左右モーターの速度調整量
+
+# ファジィセットの定義（メンバーシップ関数）
+offset['negative'] = fuzz.trimf(offset.universe, [-50, -50, 0])
+offset['zero'] = fuzz.trimf(offset.universe, [-50, 0, 50])
+offset['positive'] = fuzz.trimf(offset.universe, [0, 50, 50])
+
+angle['negative'] = fuzz.trimf(angle.universe, [-45, -45, 0])
+angle['zero'] = fuzz.trimf(angle.universe, [-45, 0, 45])
+angle['positive'] = fuzz.trimf(angle.universe, [0, 45, 45])
+
+motor_speed['negative'] = fuzz.trimf(motor_speed.universe, [-100, -100, 0])
+motor_speed['zero'] = fuzz.trimf(motor_speed.universe, [-100, 0, 100])
+motor_speed['positive'] = fuzz.trimf(motor_speed.universe, [0, 100, 100])
+
+# ファジィルールの定義
+rule1 = ctrl.Rule(offset['negative'] & angle['negative'], motor_speed['positive'])
+rule2 = ctrl.Rule(offset['negative'] & angle['zero'], motor_speed['positive'])
+rule3 = ctrl.Rule(offset['negative'] & angle['positive'], motor_speed['negative'])
+rule4 = ctrl.Rule(offset['zero'] & angle['negative'], motor_speed['positive'])
+rule5 = ctrl.Rule(offset['zero'] & angle['zero'], motor_speed['zero'])
+rule6 = ctrl.Rule(offset['zero'] & angle['positive'], motor_speed['negative'])
+rule7 = ctrl.Rule(offset['positive'] & angle['negative'], motor_speed['positive'])
+rule8 = ctrl.Rule(offset['positive'] & angle['zero'], motor_speed['negative'])
+rule9 = ctrl.Rule(offset['positive'] & angle['positive'], motor_speed['negative'])
+
+# 制御システムの構築
+motor_ctrl = ctrl.ControlSystem([rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9])
+motor_simulation = ctrl.ControlSystemSimulation(motor_ctrl)
 
 
 class NavigatorNode:
@@ -121,13 +159,20 @@ class NavigatorNode:
 
         return check_result
     
-    def motor_speed_set(self, wheel_cmd):
+    def motor_speed_set(self, wheel_cmd, speed_weight):
         if wheel_cmd == wheel_status_dict['WHEEL_STOP']:    
             self.left_motor_speed = 0
             self.right_motor_speed = 0
         elif wheel_cmd == wheel_status_dict['WHEEL_STRAIGHT']:
-            self.left_motor_speed = 100
-            self.right_motor_speed = 100
+            if speed_weight == 0:
+                self.left_motor_speed = 100
+                self.right_motor_speed = 100
+            elif speed_weight > 0:
+                self.left_motor_speed = 100
+                self.right_motor_speed = 100 * (1 + abs(speed_weight))
+            elif speed_weight < 0:
+                self.left_motor_speed = 100 * (1 + abs(speed_weight))
+                self.right_motor_speed = 100
         elif wheel_cmd == wheel_status_dict['WHEEL_LEFT']:
             self.left_motor_speed = -50
             self.right_motor_speed = 50
@@ -144,7 +189,18 @@ class NavigatorNode:
             self.robot_status = robot_status_dict['TURN_LEFT']
         elif wheel_cmd == wheel_status_dict['WHEEL_RIGHT']:
             self.robot_status = robot_status_dict['TURN_RIGHT']
+    
+    def motor_speed_fuzzy(self, offset_mm, angle):
+        motor_simulation.input['offset'] = offset_mm
+        motor_simulation.input['angle'] = angle
 
+        # 推論を実行
+        motor_simulation.compute()
+
+        # 出力を得る
+        speed = motor_simulation.output['motor_speed']
+        weight = speed / 100
+        return weight
         
 
     def callback(self, data):
@@ -153,31 +209,34 @@ class NavigatorNode:
         offset_mm = data.data[0]
         angle_deg = data.data[1]
         arc_distance_mm = data.data[2]
-        stop_signal = int(data.data[3])
+        pause_segnal = int(data.data[3])
+        motor_speed_weight = self.motor_speed_fuzzy(offset_mm, angle_deg)
 
         if self.robot_status == robot_status_dict['STRAIGHT']:
-            if abs(offset_mm) > self.acceptable_offset:
+            if abs(offset_mm) <= self.acceptable_offset_mm and abs(angle_deg) <= self.acceptable_angle_deg:
+                self.motor_speed_set(wheel_status_dict['WHEEL_STRAIGHT'], motor_speed_weight)
+            elif abs(offset_mm) > self.acceptable_offset:
                 self.robot_status = robot_status_dict['STOP']
-                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'])
-            elif stop_signal:
+                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'], motor_speed_weight)
+            elif pause_segnal:
                 self.robot_status = robot_status_dict['PAUSE']
-                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'])
+                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'], motor_speed_weight)
 
         elif self.robot_status == robot_status_dict['TURN_RIGHT']:
             if abs(arc_distance_mm) > self.acceptable_arc_distance_mm:
                 self.robot_status = robot_status_dict['STOP']
-                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'])
-            elif stop_signal:
+                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'], motor_speed_weight)
+            elif pause_segnal:
                 self.robot_status = robot_status_dict['PAUSE']
-                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'])
+                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'], motor_speed_weight)
 
         elif self.robot_status == robot_status_dict['TURN_LEFT']:
             if abs(arc_distance_mm) > self.acceptable_arc_distance_mm:
                 self.robot_status = robot_status_dict['STOP']
-                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'])
-            elif stop_signal:
+                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'], motor_speed_weight)
+            elif pause_segnal:
                 self.robot_status = robot_status_dict['PAUSE']
-                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'])
+                self.motor_speed_set(wheel_status_dict['WHEEL_STOP'], motor_speed_weight)
 
         elif self.robot_status == robot_status_dict['PAUSE']:
             cmd = input('Please input command...')
