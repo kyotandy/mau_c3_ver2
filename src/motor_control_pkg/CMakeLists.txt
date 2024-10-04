@@ -161,6 +161,10 @@ include_directories(
 # catkin_install_python(PROGRAMS
 catkin_install_python(PROGRAMS
   src/wheel_node.py
+  src/clump_node.py
+  src/panel_node.py
+  src/rail_node.py
+  src/rotation_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

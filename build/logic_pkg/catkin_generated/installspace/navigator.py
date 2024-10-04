@@ -20,8 +20,10 @@ rotation_status_dict = {
 }
 
 clump_status_dict = {
-    'CLUMP_OFF': '0',
-    'CLUMP_ON': '1'
+    'ALL_OFF': '0',
+    'FORWARD_ON': '1',
+    'BACKWARD_ON': '2',
+    'ALL_ON':'3'
 }
 
 rail_status_dict = {
