@@ -8,8 +8,8 @@ from pymodbus.constants import Endian
 
 class WheelNode:
     def __init__(self):
-        self.right_slave = 8
-        self.left_slave = 9
+        self.left_slave_id = 8
+        self.right_slave_id = 9
 
         # Initialize the node
         rospy.init_node('wheel_node', anonymous=True)  
@@ -25,12 +25,12 @@ class WheelNode:
             exit(1)
         
         # Drive trigger -4: speed
-        self.client.write_registers(address=0x0066, values=[0xffff, 0xfffc], slave=self.right_slave)
-        self.client.write_registers(address=0x0066, values=[0xffff, 0xfffc], slave=self.left_slave)
+        self.client.write_registers(address=0x0066, values=[0xffff, 0xfffc], slave=self.right_slave_id)
+        self.client.write_registers(address=0x0066, values=[0xffff, 0xfffc], slave=self.left_slave_id)
         
         # Step
-        self.client.write_registers(address=0x005c, values=[0, 1000], slave=self.right_slave)
-        self.client.write_registers(address=0x005c, values=[0, 1000], slave=self.left_slave)
+        self.client.write_registers(address=0x005c, values=[0, 1000], slave=self.right_slave_id)
+        self.client.write_registers(address=0x005c, values=[0, 1000], slave=self.left_slave_id)
 
     def callback(self, data):
         # Extract left and right motor speeds
@@ -38,8 +38,8 @@ class WheelNode:
         right_motor_speed = data.data[1]
 
         # Start a new thread for each Modbus write operation
-        threading.Thread(target=self.write_motor_speed, args=(right_motor_speed, self.right_slave)).start()
-        threading.Thread(target=self.write_motor_speed, args=(left_motor_speed, self.left_slave)).start()
+        threading.Thread(target=self.write_motor_speed, args=(right_motor_speed, self.right_slave_id)).start()
+        threading.Thread(target=self.write_motor_speed, args=(left_motor_speed, self.left_slave_id)).start()
 
     def write_motor_speed(self, speed, slave):
         try:

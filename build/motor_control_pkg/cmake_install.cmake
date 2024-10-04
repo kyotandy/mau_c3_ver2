@@ -56,3 +56,19 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/motor_control_pkg" TYPE PROGRAM FILES "/home/kyota/mau_c3_ver2/build/motor_control_pkg/catkin_generated/installspace/wheel_node.py")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/motor_control_pkg" TYPE PROGRAM FILES "/home/kyota/mau_c3_ver2/build/motor_control_pkg/catkin_generated/installspace/clump_node.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/motor_control_pkg" TYPE PROGRAM FILES "/home/kyota/mau_c3_ver2/build/motor_control_pkg/catkin_generated/installspace/panel_node.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/motor_control_pkg" TYPE PROGRAM FILES "/home/kyota/mau_c3_ver2/build/motor_control_pkg/catkin_generated/installspace/rail_node.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/motor_control_pkg" TYPE PROGRAM FILES "/home/kyota/mau_c3_ver2/build/motor_control_pkg/catkin_generated/installspace/rotation_node.py")
+endif()
+
