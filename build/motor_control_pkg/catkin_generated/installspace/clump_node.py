@@ -29,7 +29,7 @@ class ClumpPositionNode:
 
         # ROSノードの初期化
         rospy.init_node('clump_position_node', anonymous=True)
-        self.clump_position_sub = rospy.Subscriber('/clump_position', String, self.callback)
+        self.clump_position_sub = rospy.Subscriber('/clump_position', String, self.callback, queue_size=1)
 
         self.clump_status = clump_status_dict['ALL_OFF']
         self.forward_slave_id = 2

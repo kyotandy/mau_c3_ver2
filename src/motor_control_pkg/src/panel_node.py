@@ -30,7 +30,7 @@ class PanelPositionNode:
 
         # ROSノードの初期化
         rospy.init_node('panel_position_node', anonymous=True)
-        self.panel_position_sub = rospy.Subscriber('/panel_position', String, self.callback)
+        self.panel_position_sub = rospy.Subscriber('/panel_position', String, self.callback, queue_size=1)
 
         self.panel_status = panel_status_dict['ALL_ON']
         self.head_right_forward_slave_id = 5

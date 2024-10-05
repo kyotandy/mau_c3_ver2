@@ -26,7 +26,7 @@ class RailPositioningNode:
 
         # ROSノードの初期化
         rospy.init_node('rail_positioning_node', anonymous=True)
-        self.rail_moving_info_subscriber = rospy.Subscriber('/rail_position', String, self.callback)
+        self.rail_moving_info_subscriber = rospy.Subscriber('/rail_position', String, self.callback, queue_size=1)
 
         self.rail_status = rail_status_dict['RAIL_ON']
         self.slave_id = 4

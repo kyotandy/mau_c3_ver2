@@ -14,7 +14,7 @@ class WheelNode:
         # Initialize the node
         rospy.init_node('wheel_node', anonymous=True)  
         # Subscribe to the motor speeds topic
-        self.speed_sub = rospy.Subscriber("motor_speeds", Int32MultiArray, self.callback)
+        self.speed_sub = rospy.Subscriber("wheel_speeds", Int32MultiArray, self.callback, queue_size=1)
 
         # Set up Modbus client
         self.client = ModbusClient(method='rtu', port='/dev/ttyUSB0', baudrate=115200, parity='E', stopbits=1, bytesize=8, timeout=1)
@@ -29,8 +29,8 @@ class WheelNode:
         self.client.write_registers(address=0x0066, values=[0xffff, 0xfffc], slave=self.left_slave_id)
         
         # Step
-        self.client.write_registers(address=0x005c, values=[0, 1000], slave=self.right_slave_id)
-        self.client.write_registers(address=0x005c, values=[0, 1000], slave=self.left_slave_id)
+        self.client.write_registers(address=0x005c, values=[0, 100], slave=self.right_slave_id)
+        self.client.write_registers(address=0x005c, values=[0, 100], slave=self.left_slave_id)
 
     def callback(self, data):
         # Extract left and right motor speeds

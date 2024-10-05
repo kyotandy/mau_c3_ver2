@@ -57,16 +57,16 @@ angle = ctrl.Antecedent(np.arange(-45, 46, 1), 'angle')  # y方向の角度の�
 motor_speed = ctrl.Consequent(np.arange(-100, 101, 1), 'motor_speed')  # 左右モーターの速度調整量
 
 # ファジィセットの定義（メンバーシップ関数）
-offset['negative'] = fuzz.trimf(offset.universe, [-50, -50, 0])
-offset['zero'] = fuzz.trimf(offset.universe, [-50, 0, 50])
-offset['positive'] = fuzz.trimf(offset.universe, [0, 50, 50])
+offset['negative'] = fuzz.trapmf(offset.universe, [-50, -50, -5, 0])
+offset['zero'] = fuzz.trapmf(offset.universe, [-3, -1, 1, 3])
+offset['positive'] = fuzz.trapmf(offset.universe, [0, 5, 50, 50])
 
-angle['negative'] = fuzz.trimf(angle.universe, [-45, -45, 0])
-angle['zero'] = fuzz.trimf(angle.universe, [-45, 0, 45])
-angle['positive'] = fuzz.trimf(angle.universe, [0, 45, 45])
+angle['negative'] = fuzz.trapmf(angle.universe, [-45, -45, -10, 0])
+angle['zero'] = fuzz.trapmf(angle.universe, [-10, -2, 2, 10])
+angle['positive'] = fuzz.trapmf(angle.universe, [0, 10, 45, 45])
 
 motor_speed['negative'] = fuzz.trimf(motor_speed.universe, [-100, -100, 0])
-motor_speed['zero'] = fuzz.trimf(motor_speed.universe, [-100, 0, 100])
+motor_speed['zero'] = fuzz.trimf(motor_speed.universe, [-60, 0, 60])
 motor_speed['positive'] = fuzz.trimf(motor_speed.universe, [0, 100, 100])
 
 # ファジィルールの定義
@@ -90,14 +90,14 @@ class NavigatorNode:
         rospy.init_node('navigator_node', anonymous=True)
 
         # Subscribe to the topic with the offset and angle data
-        self.data_sub = rospy.Subscriber("image_info", Float32MultiArray, self.callback)
+        self.data_sub = rospy.Subscriber("image_info", Float32MultiArray, self.callback, queue_size=1)
 
         # Publisher for motor speed commands
-        self.rotation_position_pub = rospy.Publisher("rotation_position", String, queue_size=10)
-        self.clump_position_pub = rospy.Publisher("clump_position", String, queue_size=10)
-        self.rail_position_pub = rospy.Publisher("rail_position", String, queue_size=10)
-        self.panel_position_pub = rospy.Publisher("panel_position", String, queue_size=10)
-        self.wheel_speed_pub = rospy.Publisher("wheel_speeds", Int32MultiArray, queue_size=10)
+        self.rotation_position_pub = rospy.Publisher("rotation_position", String, queue_size=1)
+        self.clump_position_pub = rospy.Publisher("clump_position", String, queue_size=1)
+        self.rail_position_pub = rospy.Publisher("rail_position", String, queue_size=1)
+        self.panel_position_pub = rospy.Publisher("panel_position", String, queue_size=1)
+        self.wheel_speed_pub = rospy.Publisher("wheel_speeds", Int32MultiArray, queue_size=1)
 
         self.robot_status = robot_status_dict['STRAIGHT']
 
@@ -111,13 +111,13 @@ class NavigatorNode:
 
         # initialize publish data
         self.rotatoin_msg.data = rotation_status_dict['CENTER']
-        self.clump_msg.data = clump_status_dict['CLUMP_OFF']
+        self.clump_msg.data = clump_status_dict['ALL_OFF']
         self.rail_msg.data = rail_status_dict['RAIL_ON']
         self.panel_msg.data = panel_status_dict['PANEL_ALL_ON']
-        self.wheel_speeds_msg = [self.left_motor_speed, self.right_motor_speed]
+        self.wheel_speeds_msg.data = [self.left_motor_speed, self.right_motor_speed]
 
-        self.acceptable_offset_mm = 0.5
-        self.acceptable_angle_deg = 0.5
+        self.acceptable_offset_mm = 10
+        self.acceptable_angle_deg = 5
         self.acceptable_arc_distance_mm = 5
         self.log_counter = 0
 
@@ -127,6 +127,7 @@ class NavigatorNode:
         self.clump_position_pub.publish(self.clump_msg)
         self.rail_position_pub.publish(self.panel_msg)
         self.panel_position_pub.publish(self.panel_msg)
+        self.wheel_speeds_msg.data = [self.left_motor_speed, self.right_motor_speed]
         self.wheel_speed_pub.publish(self.wheel_speeds_msg)
     
     def cmd_check(self, cmd):
@@ -169,9 +170,9 @@ class NavigatorNode:
                 self.right_motor_speed = 100
             elif speed_weight > 0:
                 self.left_motor_speed = 100
-                self.right_motor_speed = 100 * (1 + abs(speed_weight))
+                self.right_motor_speed = int(100 + abs(speed_weight))
             elif speed_weight < 0:
-                self.left_motor_speed = 100 * (1 + abs(speed_weight))
+                self.left_motor_speed = int(100 + abs(speed_weight))
                 self.right_motor_speed = 100
         elif wheel_cmd == wheel_status_dict['WHEEL_LEFT']:
             self.left_motor_speed = -50
@@ -179,6 +180,7 @@ class NavigatorNode:
         elif wheel_cmd == wheel_status_dict['WHEEL_RIGHT']:
             self.left_motor_speed = 50
             self.right_motor_speed = -50
+
     
     def robot_status_set(self, wheel_cmd):
         if wheel_cmd == wheel_status_dict['WHEEL_STOP']:
@@ -199,8 +201,8 @@ class NavigatorNode:
 
         # 出力を得る
         speed = motor_simulation.output['motor_speed']
-        weight = speed / 100
-        return weight
+        
+        return speed
         
 
     def callback(self, data):
@@ -213,9 +215,9 @@ class NavigatorNode:
         motor_speed_weight = self.motor_speed_fuzzy(offset_mm, angle_deg)
 
         if self.robot_status == robot_status_dict['STRAIGHT']:
-            if abs(offset_mm) <= self.acceptable_offset_mm and abs(angle_deg) <= self.acceptable_angle_deg:
+            if abs(offset_mm) <= self.acceptable_offset_mm:
                 self.motor_speed_set(wheel_status_dict['WHEEL_STRAIGHT'], motor_speed_weight)
-            elif abs(offset_mm) > self.acceptable_offset:
+            elif abs(offset_mm) > self.acceptable_offset_mm:
                 self.robot_status = robot_status_dict['STOP']
                 self.motor_speed_set(wheel_status_dict['WHEEL_STOP'], motor_speed_weight)
             elif pause_segnal:
@@ -257,13 +259,18 @@ class NavigatorNode:
             self.robot_status_set(wheel_cmd)
 
         elif self.robot_status == robot_status_dict['STOP']:
-            pass
+            self.publish_msg()
+            cmd = ""
+            while cmd != 'done':    
+                cmd = input('Please input "done"...')
+            
+            self.robot_status = robot_status_dict['STRAIGHT']
         
 
         # Print the offset and angle to the console
         self.log_counter += 1
         if self.log_counter >= 20:
-            rospy.loginfo(f"Received deviation - offset: {offset_mm}, angle: {angle_deg}, motor speed: {right_motor_speed}")
+            rospy.loginfo(f"status: {self.robot_status}, offset: {offset_mm:.2f}, angle: {angle_deg:.2f}, speed weight: {motor_speed_weight:.2f}, left motor: {self.left_motor_speed:.2f}, right motor: {self.right_motor_speed:.2f}")
             self.log_counter = 0
 
         # Publish tmessages

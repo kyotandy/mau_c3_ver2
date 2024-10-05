@@ -27,7 +27,7 @@ class RotationPositionNode:
 
         # ROSノードの初期化
         rospy.init_node('rotation_position_node', anonymous=True)
-        self.rotation_position_sub = rospy.Subscriber('/rotation_position', String, self.callback)
+        self.rotation_position_sub = rospy.Subscriber('/rotation_position', String, self.callback, queue_size=1)
 
         self.rotation_status = rotation_status_dict['CENTER']
         self.slave_id = 1

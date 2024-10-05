@@ -17,10 +17,10 @@ class ImageSubscriber:
         self.bridge = CvBridge()
 
         # Subscribe to the image topic
-        self.image_sub = rospy.Subscriber("camera/image_raw", Image, self.callback)
+        self.image_sub = rospy.Subscriber("camera/image_raw", Image, self.callback, queue_size=1)
 
         # Publisher for offset, angle, arc distance, and stop signal data
-        self.data_pub = rospy.Publisher("image_info", Float32MultiArray, queue_size=10)
+        self.data_pub = rospy.Publisher("image_info", Float32MultiArray, queue_size=1)
 
         # Pixel to mm conversion factor (1 pixel = 0.05 mm)
         self.pixel_to_mm = 0.05
@@ -53,22 +53,22 @@ class ImageSubscriber:
         # Create mask to detect blue color
         blue_mask = cv2.inRange(hsv_image, lower_blue, upper_blue)
 
-        # Define the purple color range for detection (stop point)
-        lower_purple = np.array([140, 50, 50])
-        upper_purple = np.array([160, 255, 255])
-        # Create mask to detect purple color
-        purple_mask = cv2.inRange(hsv_image, lower_purple, upper_purple)
+        # Define the pink color range for detection (stop point)
+        lower_pink = np.array([140, 100, 100])
+        upper_pink = np.array([170, 255, 255])
+        # Create mask to detect pink color
+        pink_mask = cv2.inRange(hsv_image, lower_pink, upper_pink)
 
-        # Define the green color range for detection (arc)
-        lower_green = np.array([40, 50, 50])
-        upper_green = np.array([80, 255, 255])
-        # Create mask to detect green color
-        green_mask = cv2.inRange(hsv_image, lower_green, upper_green)
+        # Define the red color range for detection (arc)
+        lower_red = np.array([0, 100, 100])
+        upper_red = np.array([10, 255, 255])
+        # Create mask to detect red color
+        red_mask = cv2.inRange(hsv_image, lower_red, upper_red)
 
         # Display the masks in separate windows for debugging
-        cv2.imshow("Blue Mask", blue_mask)
-        cv2.imshow("Purple Mask", purple_mask)
-        cv2.imshow("Green Mask", green_mask)
+        # cv2.imshow("Blue Mask", blue_mask)
+        # cv2.imshow("Purple Mask", pink_mask)
+        # cv2.imshow("Green Mask", red_mask)
 
         # Use the blue mask to find blue regions in the image (line)
         edges = cv2.Canny(blue_mask, 50, 150)
@@ -104,24 +104,41 @@ class ImageSubscriber:
                     camera_angle_deg -= 180
                 elif camera_angle_deg < -90:
                     camera_angle_deg += 180
-            robot_offset_mm = camera_offset_mm - self.camera_tire_gap_mm * math.tan(abs(camera_angle_deg))
+        
+        try:
+            # robot_offset_mm = camera_offset_mm - self.camera_tire_gap_mm * math.tan(abs(camera_angle_deg))
+            robot_offset_mm = camera_offset_mm
             robot_angle_deg = camera_angle_deg
+        except:
+            robot_offset_mm = float('nan')
+            robot_angle_deg = float('nan')
+        
+        # Detect red arc and calculate distance from center line
+        
+        # 画像の中心列から±25ピクセルの範囲を選択（幅50ピクセル）
+        start_x = int(image_center_x - 25)
+        end_x = int(image_center_x + 25)
 
-        # Detect green arc and calculate distance from center line
-        green_points = np.where(green_mask[:, int(image_center_x)] > 0)[0]
-        if len(green_points) > 0:
-            green_y = green_points[0]
-            arc_distance_mm = (green_y - image_center_y) * self.pixel_to_mm
+        # 範囲内の緑のピクセルを特定
+        red_points = np.where(np.any(red_mask[:, start_x:end_x] > 0, axis=1))[0]
 
-        # Detect purple stop point in 100x100 region around center
-        stop_region = purple_mask[int(image_center_y - 50):int(image_center_y + 50),
+        # 緑のピクセルが存在する場合、最も上にある緑のピクセルの位置を取得
+        if len(red_points) > 0:
+            red_y = red_points[0]
+            arc_distance_mm = (red_y - image_center_y) * self.pixel_to_mm
+
+
+        # Detect pink stop point in 100x100 region around center
+        stop_region = pink_mask[int(image_center_y - 50):int(image_center_y + 50),
                                   int(image_center_x - 50):int(image_center_x + 50)]
         if np.any(stop_region > 0):
             stop_signal = 1.0
 
         # Display the offset, angle, and other information on the image
-        text = f"Offset: {robot_offset_mm:.2f} mm, Angle: {robot_angle_deg:.2f} degrees, Arc Dist: {arc_distance_mm:.2f} mm, Stop: {stop_signal}"
-        cv2.putText(cv_image, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        text_line1 = f"Offset: {robot_offset_mm:.2f} mm, Angle: {robot_angle_deg:.2f} degrees"
+        text_line2 = f"Arc Dist: {arc_distance_mm:.2f} mm, Stop: {stop_signal}"
+        cv2.putText(cv_image, text_line1, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        cv2.putText(cv_image, text_line2, (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
         # Prepare the data to publish
         data_msg = Float32MultiArray()
