@@ -78,6 +78,28 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -112,28 +134,6 @@ test:
 test/fast: test
 
 .PHONY : test/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -317,6 +317,90 @@ geometry_msgs_generate_messages_nodejs/fast:
 	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make logic_pkg/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
 
+# Convenience name for target.
+logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/rule:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f CMakeFiles/Makefile2 logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/rule
+.PHONY : logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/rule
+
+# Convenience name for target.
+fuzzy_controller_lib: logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/rule
+
+.PHONY : fuzzy_controller_lib
+
+# fast build rule for target.
+fuzzy_controller_lib/fast:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/build.make logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/build
+.PHONY : fuzzy_controller_lib/fast
+
+# Convenience name for target.
+logic_pkg/CMakeFiles/navigator_node.dir/rule:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f CMakeFiles/Makefile2 logic_pkg/CMakeFiles/navigator_node.dir/rule
+.PHONY : logic_pkg/CMakeFiles/navigator_node.dir/rule
+
+# Convenience name for target.
+navigator_node: logic_pkg/CMakeFiles/navigator_node.dir/rule
+
+.PHONY : navigator_node
+
+# fast build rule for target.
+navigator_node/fast:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/navigator_node.dir/build.make logic_pkg/CMakeFiles/navigator_node.dir/build
+.PHONY : navigator_node/fast
+
+src/fuzzy_controller.o: src/fuzzy_controller.cpp.o
+
+.PHONY : src/fuzzy_controller.o
+
+# target to build an object file
+src/fuzzy_controller.cpp.o:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/build.make logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/src/fuzzy_controller.cpp.o
+.PHONY : src/fuzzy_controller.cpp.o
+
+src/fuzzy_controller.i: src/fuzzy_controller.cpp.i
+
+.PHONY : src/fuzzy_controller.i
+
+# target to preprocess a source file
+src/fuzzy_controller.cpp.i:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/build.make logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/src/fuzzy_controller.cpp.i
+.PHONY : src/fuzzy_controller.cpp.i
+
+src/fuzzy_controller.s: src/fuzzy_controller.cpp.s
+
+.PHONY : src/fuzzy_controller.s
+
+# target to generate assembly for a file
+src/fuzzy_controller.cpp.s:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/build.make logic_pkg/CMakeFiles/fuzzy_controller_lib.dir/src/fuzzy_controller.cpp.s
+.PHONY : src/fuzzy_controller.cpp.s
+
+src/navigator.o: src/navigator.cpp.o
+
+.PHONY : src/navigator.o
+
+# target to build an object file
+src/navigator.cpp.o:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/navigator_node.dir/build.make logic_pkg/CMakeFiles/navigator_node.dir/src/navigator.cpp.o
+.PHONY : src/navigator.cpp.o
+
+src/navigator.i: src/navigator.cpp.i
+
+.PHONY : src/navigator.i
+
+# target to preprocess a source file
+src/navigator.cpp.i:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/navigator_node.dir/build.make logic_pkg/CMakeFiles/navigator_node.dir/src/navigator.cpp.i
+.PHONY : src/navigator.cpp.i
+
+src/navigator.s: src/navigator.cpp.s
+
+.PHONY : src/navigator.s
+
+# target to generate assembly for a file
+src/navigator.cpp.s:
+	cd /home/kyota/mau_c3_ver2/build && $(MAKE) -f logic_pkg/CMakeFiles/navigator_node.dir/build.make logic_pkg/CMakeFiles/navigator_node.dir/src/navigator.cpp.s
+.PHONY : src/navigator.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -325,6 +409,8 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... list_install_components"
+	@echo "... rebuild_cache"
+	@echo "... edit_cache"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... install/local"
@@ -337,9 +423,15 @@ help:
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_nodejs"
+	@echo "... fuzzy_controller_lib"
 	@echo "... test"
-	@echo "... edit_cache"
-	@echo "... rebuild_cache"
+	@echo "... navigator_node"
+	@echo "... src/fuzzy_controller.o"
+	@echo "... src/fuzzy_controller.i"
+	@echo "... src/fuzzy_controller.s"
+	@echo "... src/navigator.o"
+	@echo "... src/navigator.i"
+	@echo "... src/navigator.s"
 .PHONY : help
 
 

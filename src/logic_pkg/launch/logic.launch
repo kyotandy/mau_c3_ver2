@@ -1,0 +1,8 @@
+<launch>
+    <!-- start image_processing_node -->
+    <node pkg="logic_pkg" type="image_processing.py" name="image_processing" output="screen"/>
+
+    <!-- start navigator_node -->
+    <node pkg="logic_pkg" type="navigator_node" name="navigator" output="screen"/>
+
+</launch>

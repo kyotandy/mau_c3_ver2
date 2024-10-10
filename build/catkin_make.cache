@@ -1,2 +1,2 @@
-logic_pkg:motor_control_pkg:sensor_pkg
+launch_pkg:logic_pkg:motor_control_pkg:sensor_pkg
 -DCATKIN_DEVEL_PREFIX=/home/kyota/mau_c3_ver2/devel -DCMAKE_INSTALL_PREFIX=/home/kyota/mau_c3_ver2/install -G Unix Makefiles

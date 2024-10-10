@@ -66,7 +66,7 @@ angle['zero'] = fuzz.trapmf(angle.universe, [-10, -2, 2, 10])
 angle['positive'] = fuzz.trapmf(angle.universe, [0, 10, 45, 45])
 
 motor_speed['negative'] = fuzz.trimf(motor_speed.universe, [-100, -100, 0])
-motor_speed['zero'] = fuzz.trimf(motor_speed.universe, [-60, 0, 60])
+motor_speed['zero'] = fuzz.trimf(motor_speed.universe, [-90, 0, 90])
 motor_speed['positive'] = fuzz.trimf(motor_speed.universe, [0, 100, 100])
 
 # ファジィルールの定義
@@ -106,8 +106,8 @@ class NavigatorNode:
         self.rail_msg = String()
         self.panel_msg = String()
         self.wheel_speeds_msg = Int32MultiArray()
-        self.left_motor_speed = 100
-        self.right_motor_speed = 100
+        self.left_motor_speed = 0
+        self.right_motor_speed = 0
 
         # initialize publish data
         self.rotatoin_msg.data = rotation_status_dict['CENTER']

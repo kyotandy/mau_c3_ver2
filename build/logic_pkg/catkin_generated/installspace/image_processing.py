@@ -53,22 +53,17 @@ class ImageSubscriber:
         # Create mask to detect blue color
         blue_mask = cv2.inRange(hsv_image, lower_blue, upper_blue)
 
-        # Define the pink color range for detection (stop point)
-        lower_pink = np.array([140, 100, 100])
-        upper_pink = np.array([170, 255, 255])
-        # Create mask to detect pink color
-        pink_mask = cv2.inRange(hsv_image, lower_pink, upper_pink)
+        # Define the green color range for detection (stop point)
+        lower_green = np.array([35, 40, 40])
+        upper_green = np.array([85, 255, 255])
+        # Create mask to detect green color
+        green_mask = cv2.inRange(hsv_image, lower_green, upper_green)
 
         # Define the red color range for detection (arc)
         lower_red = np.array([0, 100, 100])
         upper_red = np.array([10, 255, 255])
         # Create mask to detect red color
         red_mask = cv2.inRange(hsv_image, lower_red, upper_red)
-
-        # Display the masks in separate windows for debugging
-        # cv2.imshow("Blue Mask", blue_mask)
-        # cv2.imshow("Purple Mask", pink_mask)
-        # cv2.imshow("Green Mask", red_mask)
 
         # Use the blue mask to find blue regions in the image (line)
         edges = cv2.Canny(blue_mask, 50, 150)
@@ -80,31 +75,43 @@ class ImageSubscriber:
         arc_distance_mm = float('nan')
         stop_signal = 0.0
 
-        # Draw only one detected line and calculate offset and angle
+        # Draw the first 4 detected lines and calculate average offset and angle
         if lines is not None and len(lines) > 0:
-            # Use the first detected line
-            x1, y1, x2, y2 = lines[0][0]
-            cv2.line(cv_image, (x1, y1), (x2, y2), (255, 0, 0), 2)  # Draw blue line for the first detected line
+            # Limit to the first 4 lines if more are detected
+            num_lines = min(len(lines), 4)
 
-            # Calculate the midpoint of the line
-            line_mid_x = (x1 + x2) / 2
-            line_mid_y = (y1 + y2) / 2
+            offsets = []
+            angles = []
 
-            # Calculate the offset from the center of the image in mm
-            offset_x = image_center_x - line_mid_x
-            camera_offset_mm = offset_x * self.pixel_to_mm
+            for i in range(num_lines):
+                x1, y1, x2, y2 = lines[i][0]
+                cv2.line(cv_image, (x1, y1), (x2, y2), (255, 0, 0), 2)  # Draw blue line for each detected line
 
-            # Calculate the angle of the line with respect to the y-axis
-            if (y2 - y1) != 0:
-                camera_angle_rad = math.atan2(x2 - x1, y2 - y1)  # Swap x and y for angle with respect to y-axis
-                # Convert to degrees and adjust sign for clockwise/anti-clockwise convention
-                camera_angle_deg = math.degrees(camera_angle_rad)
-                # Normalize angle to range [-90, 90]
-                if camera_angle_deg > 90:
-                    camera_angle_deg -= 180
-                elif camera_angle_deg < -90:
-                    camera_angle_deg += 180
-        
+                # Calculate the midpoint of the line
+                line_mid_x = (x1 + x2) / 2
+                line_mid_y = (y1 + y2) / 2
+
+                # Calculate the offset from the center of the image in mm
+                offset_x = image_center_x - line_mid_x
+                offsets.append(offset_x * self.pixel_to_mm)
+
+                # Calculate the angle of the line with respect to the y-axis
+                if (y2 - y1) != 0:
+                    camera_angle_rad = math.atan2(x2 - x1, y2 - y1)  # Swap x and y for angle with respect to y-axis
+                    camera_angle_deg = math.degrees(camera_angle_rad)
+                    # Normalize angle to range [-90, 90]
+                    if camera_angle_deg > 90:
+                        camera_angle_deg -= 180
+                    elif camera_angle_deg < -90:
+                        camera_angle_deg += 180
+                    angles.append(camera_angle_deg)
+
+            # Calculate the average offset and angle if lines were detected
+            if offsets:
+                camera_offset_mm = np.mean(offsets)
+            if angles:
+                camera_angle_deg = np.mean(angles)
+
         try:
             # robot_offset_mm = camera_offset_mm - self.camera_tire_gap_mm * math.tan(abs(camera_angle_deg))
             robot_offset_mm = camera_offset_mm
@@ -112,9 +119,9 @@ class ImageSubscriber:
         except:
             robot_offset_mm = float('nan')
             robot_angle_deg = float('nan')
-        
+
         # Detect red arc and calculate distance from center line
-        
+
         # 画像の中心列から±25ピクセルの範囲を選択（幅50ピクセル）
         start_x = int(image_center_x - 25)
         end_x = int(image_center_x + 25)
@@ -127,10 +134,9 @@ class ImageSubscriber:
             red_y = red_points[0]
             arc_distance_mm = (red_y - image_center_y) * self.pixel_to_mm
 
-
-        # Detect pink stop point in 100x100 region around center
-        stop_region = pink_mask[int(image_center_y - 50):int(image_center_y + 50),
-                                  int(image_center_x - 50):int(image_center_x + 50)]
+        # Detect green stop point in 100x100 region around center
+        stop_region = green_mask[int(image_center_y - 50):int(image_center_y + 50),
+                                int(image_center_x - 50):int(image_center_x + 50)]
         if np.any(stop_region > 0):
             stop_signal = 1.0
 
@@ -148,6 +154,7 @@ class ImageSubscriber:
         # Display the image with the detected line, offset, angle, and cross
         cv2.imshow("Blue Line Detection", cv_image)
         cv2.waitKey(1)
+
 
     def run(self):
         rospy.spin()

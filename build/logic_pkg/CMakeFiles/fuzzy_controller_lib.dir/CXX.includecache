@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kyota/mau_c3_ver2/src/logic_pkg/include/logic_pkg/fuzzy_controller.h
+fl/Headers.h
+/home/kyota/mau_c3_ver2/src/logic_pkg/include/logic_pkg/fl/Headers.h
+
+/home/kyota/mau_c3_ver2/src/logic_pkg/src/fuzzy_controller.cpp
+fuzzy_controller.h
+/home/kyota/mau_c3_ver2/src/logic_pkg/src/fuzzy_controller.h
+AlgebraicProduct.h
+/home/kyota/mau_c3_ver2/src/logic_pkg/src/AlgebraicProduct.h
+Minimum.h
+/home/kyota/mau_c3_ver2/src/logic_pkg/src/Minimum.h
+Centroid.h
+/home/kyota/mau_c3_ver2/src/logic_pkg/src/Centroid.h
+
+/usr/local/include/fuzzylite/defuzzifier/Centroid.h
+fuzzylite/defuzzifier/IntegralDefuzzifier.h
+/usr/local/include/fuzzylite/defuzzifier/fuzzylite/defuzzifier/IntegralDefuzzifier.h
+
+/usr/local/include/fuzzylite/norm/t/AlgebraicProduct.h
+fuzzylite/norm/TNorm.h
+/usr/local/include/fuzzylite/norm/t/fuzzylite/norm/TNorm.h
+
+/usr/local/include/fuzzylite/norm/t/Minimum.h
+fuzzylite/norm/TNorm.h
+/usr/local/include/fuzzylite/norm/t/fuzzylite/norm/TNorm.h
+

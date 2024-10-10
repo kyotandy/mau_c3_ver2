@@ -56,7 +56,3 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/logic_pkg" TYPE PROGRAM FILES "/home/kyota/mau_c3_ver2/build/logic_pkg/catkin_generated/installspace/image_processing.py")
 endif()
 
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/logic_pkg" TYPE PROGRAM FILES "/home/kyota/mau_c3_ver2/build/logic_pkg/catkin_generated/installspace/navigator.py")
-endif()
-

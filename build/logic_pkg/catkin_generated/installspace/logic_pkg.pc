@@ -3,6 +3,6 @@ prefix=/home/kyota/mau_c3_ver2/install
 Name: logic_pkg
 Description: Description of logic_pkg
 Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -llogic_pkg
+Requires: cv_bridge rospy sensor_msgs roscpp

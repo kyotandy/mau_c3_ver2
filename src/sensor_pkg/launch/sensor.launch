@@ -1,0 +1,5 @@
+<launch>
+    <!-- start wheel -->
+    <node pkg="sensor_pkg" type="sensor_node" name="camera_node" output="screen"/>
+
+</launch>

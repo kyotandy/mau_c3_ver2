@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import rospy
-import serial
 from std_msgs.msg import String
-from pymodbus.client import ModbusSerialClient as ModbusClient
+from motor_control_pkg.srv import ModbusWrite, ModbusWriteRequest
 
 rotation_status_dict = {
     'LEFT': '0',
@@ -10,77 +9,77 @@ rotation_status_dict = {
     'RIGHT': '2'
 }
 
-
 class RotationPositionNode:
     def __init__(self):
-        # Modbusクライアントの初期化
-        self.client = ModbusClient(
-            method='rtu',
-            port='/dev/ttyUSB0',
-            baudrate=115200,
-            timeout=3,
-            parity=serial.PARITY_EVEN,
-            stopbits=serial.STOPBITS_ONE
-        )
-        self.client.connect()
-        self.presetting()
-
         # ROSノードの初期化
         rospy.init_node('rotation_position_node', anonymous=True)
-        self.rotation_position_sub = rospy.Subscriber('/rotation_position', String, self.callback, queue_size=1)
-
         self.rotation_status = rotation_status_dict['CENTER']
         self.slave_id = 1
+        self.rotation_position_sub = rospy.Subscriber('/rotation_position', String, self.callback, queue_size=1)
+
+        # サービスが利用可能になるのを待つ
+        rospy.wait_for_service('modbus_write')
+        
+        # Modbus書き込みサービスのプロキシを作成
+        self.modbus_write_service = rospy.ServiceProxy('modbus_write', ModbusWrite)
+
+        # 初期設定
+        self.presetting()
 
     def presetting(self):
-        # driving data No 1: LEFT
-        self.client.write_registers(address=0x0058, values=[
-            0, 1, # driving data: 0
-            0, 1, # 1: absolute
-            0xffff, 0xfd58, # step
-            0, 100 # speed
-        ])
-        # trigger -7: driving data No
-        self.client.write_registers(address=0x0066, values=[0xffff, 0xfff9])
-        
-        # driving data No 2: CENTER
-        self.client.write_registers(address=0x0058, values=[
-            0, 2, # driving data: 0
-            0, 1, # 1: absolute
-            0, 0, # step
-            0, 100 # speed
-        ])
-        # trigger -7: driving data No
-        self.client.write_registers(address=0x0066, values=[0xffff, 0xfff9])        
+        # type(absolute), step(0), speed(500), trigger(step)
+        self.send_modbus_command(0x0058, [0, 0, 0, 1, 0, 0, 0, 500], self.slave_id)
+        self.send_modbus_command(0x0066, [0xffff, 0xfffb], self.slave_id)
 
-        # driving data No 3: RIGHT
-        self.client.write_registers(address=0x0058, values=[
-            0, 3, # driving data: 0
-            0, 1, # 1: absolute
-            0, 680, # step
-            0, 100 # speed
-        ])
-        # trigger -7: driving data No
-        self.client.write_registers(address=0x0066, values=[0xffff, 0xfff9])        
+        rospy.loginfo(f"Successfully rotation presetting")
+
+    def send_modbus_command(self, address, data, slave_id):
+        try:
+            # サービスリクエストを作成
+            request = ModbusWriteRequest()
+            request.address = address
+            request.data = data
+            request.slave_id = slave_id
+
+            # サービスを呼び出す
+            response = self.modbus_write_service(request)
+
+        except rospy.ServiceException as e:
+            rospy.logerr(f"Service call failed: {e}")
+
+    def write_rotation_movement(self, step, slave):
+        step_upper, step_lower = self.decimal_to_hex(step)
+        # クランプ動作を設定
+        self.send_modbus_command(0x005c, [step_upper, step_lower], slave)
+
+    def decimal_to_hex(self, number):
+        # Convert the decimal number to a 32-bit signed integer
+        number = int(number) & 0xffffffff
+
+        # Convert to hex without formatting into a string
+        hex_number = number
+
+        # Split the hex number into two parts and return as integers
+        return hex_number >> 16, hex_number & 0xffff
 
 
     def move_start(self):
         if self.rotation_status == rotation_status_dict['LEFT']:
-            self.client.write_registers(address=0x0058, values=[0, 1], slave=self.slave_id)
+            self.write_rotation_movement([0, -1000], self.slave_id)
         elif self.rotation_status == rotation_status_dict['CENTER']:
-            self.client.write_registers(address=0x0058, values=[0, 2], slave=self.slave_id)
+            self.write_rotation_movement([0, 0], self.slave_id)
         elif self.rotation_status == rotation_status_dict['RIGHT']:
-            self.client.write_registers(address=0x0058, values=[0, 3], slave=self.slave_id)
+            self.write_rotation_movement([0, 1000], self.slave_id)
 
     def callback(self, msg):
-        if self.rail_status != msg.data:
-            self.rail_status = msg.data
+        if self.rotation_status != msg.data:
+            self.rotation_status = msg.data
 
+            # モーターを回転させる
             self.move_start()
 
     def run(self):
         rospy.spin()
-
 
 if __name__ == '__main__':
     try:
@@ -88,4 +87,3 @@ if __name__ == '__main__':
         node.run()
     except rospy.ROSInterruptException:
         pass
-

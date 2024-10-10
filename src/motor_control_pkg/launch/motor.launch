@@ -1,0 +1,20 @@
+<launch>
+    <!-- start serial handler node -->
+    <node pkg="motor_control_pkg" type="serial_handler_node" name="serial_handler_node" output="screen"/>
+
+    <!-- start rotation -->
+    <node pkg="motor_control_pkg" type="rotation_node.py" name="rotation_node" output="screen" respawn_delay="3"/>
+
+    <!-- start clumper -->
+    <node pkg="motor_control_pkg" type="clump_node.py" name="clump_node" output="screen" respawn_delay="6"/>
+
+    <!-- start rail -->
+    <node pkg="motor_control_pkg" type="rail_node.py" name="rail_node" output="screen" respawn_delay="9"/>
+
+    <!-- start panel -->
+    <node pkg="motor_control_pkg" type="panel_node.py" name="panel_node" output="screen" respawn_delay="12"/>
+
+    <!-- start wheel -->
+    <node pkg="motor_control_pkg" type="wheel_node.py" name="wheel_node" output="screen" respawn_delay="20"/>
+
+</launch>

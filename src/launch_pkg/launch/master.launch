@@ -1,0 +1,11 @@
+<launch>
+  <!-- start sensor_pkg -->
+  <include file="$(find sensor_pkg)/launch/sensor.launch"/>
+
+  <!-- start motor_pkg -->
+  <include file="$(find motor_control_pkg)/launch/motor.launch"/>
+
+  <!-- start logic_pkg -->
+  <include file="$(find logic_pkg)/launch/logic.launch"/>
+
+</launch>
