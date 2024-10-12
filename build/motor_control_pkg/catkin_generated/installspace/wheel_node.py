@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import threading
+import time
 import rospy
 from std_msgs.msg import Int32MultiArray
-from motor_control_pkg.srv import ModbusWrite, ModbusWriteRequest
+from motor_control_pkg.msg import ModbusWrite
 
 class WheelNode:
     def __init__(self):
@@ -14,24 +14,30 @@ class WheelNode:
         rospy.init_node('wheel_node', anonymous=True)
         # Subscribe to the motor speeds topic
         self.speed_sub = rospy.Subscriber("wheel_speeds", Int32MultiArray, self.callback, queue_size=1)
-
-        # Wait for the modbus_write service to be available
-        rospy.wait_for_service('modbus_write')
-
-        # Set up the service proxy for Modbus communication
-        self.modbus_write_service = rospy.ServiceProxy('modbus_write', ModbusWrite)
+        self.modbus_write_pub = rospy.Publisher('modbus_request', ModbusWrite, queue_size=1)
 
         # Initialize the motors with the preset values
         self.pre_setting()
 
     def pre_setting(self):
         # Drive trigger -4: speed
-        self.send_modbus_command(0x0066, [0xffff, 0xfffc], self.right_slave_id)
         self.send_modbus_command(0x0066, [0xffff, 0xfffc], self.left_slave_id)
+        time.sleep(1)
+        self.send_modbus_command(0x0066, [0xffff, 0xfffc], self.right_slave_id)
+        time.sleep(1)
         
         # Step
-        self.send_modbus_command(0x005c, [0, 50], self.right_slave_id)
-        self.send_modbus_command(0x005c, [0, 50], self.left_slave_id)
+        self.send_modbus_command(0x005c, [0xffff, 0xfe0c, 0, 500], self.left_slave_id)
+        time.sleep(1)
+        self.send_modbus_command(0x005c, [0xffff, 0xfe0c, 0, 500], self.right_slave_id)
+        time.sleep(3)
+
+        self.send_modbus_command(0x005c, [0, 500, 0, 500], self.left_slave_id)
+        time.sleep(1)
+        self.send_modbus_command(0x005c, [0, 500, 0, 500], self.right_slave_id)
+        time.sleep(1)
+
+        
 
         rospy.loginfo(f"Successfully wheel presetting")
 
@@ -55,23 +61,27 @@ class WheelNode:
         # Extract left and right motor speeds
         left_motor_speed = data.data[0]
         right_motor_speed = data.data[1]
+        rospy.loginfo(f'receive left_motor_speed: {data}')
 
         # Start a new thread for each Modbus write operation
-        threading.Thread(target=self.write_wheel_movement, args=(right_motor_speed, self.right_slave_id)).start()
-        threading.Thread(target=self.write_wheel_movement, args=(left_motor_speed, self.left_slave_id)).start()
+        self.write_wheel_movement(right_motor_speed, self.right_slave_id)
+        time.sleep(0.1)
+        self.write_wheel_movement(left_motor_speed, self.left_slave_id)
+
+        time.sleep(0.1)
 
     def send_modbus_command(self, address, data, slave_id):
         try:
             # Create a service request
-            request = ModbusWriteRequest()
+            request = ModbusWrite()
             request.address = address
             request.data = data
             request.slave_id = slave_id
 
             # Call the service
-            response = self.modbus_write_service(request)
+            self.modbus_write_pub.publish(request)
 
-            rospy.loginfo(f"send command to {address}")
+            rospy.loginfo(f"send command to {data[0], data[1]}")
 
         except rospy.ServiceException as e:
             rospy.logerr(f"Service call failed: {e}")

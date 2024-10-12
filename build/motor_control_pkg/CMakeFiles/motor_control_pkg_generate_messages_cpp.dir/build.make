@@ -57,11 +57,10 @@ motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_cpp: /home/kyot
 
 
 /home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWrite.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWrite.h: /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv
+/home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWrite.h: /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg
 /home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWrite.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWrite.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from motor_control_pkg/ModbusWrite.srv"
-	cd /home/kyota/mau_c3_ver2/src/motor_control_pkg && /home/kyota/mau_c3_ver2/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/include/motor_control_pkg -e /opt/ros/noetic/share/gencpp/cmake/..
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from motor_control_pkg/ModbusWrite.msg"
+	cd /home/kyota/mau_c3_ver2/src/motor_control_pkg && /home/kyota/mau_c3_ver2/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg -Imotor_control_pkg:/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/include/motor_control_pkg -e /opt/ros/noetic/share/gencpp/cmake/..
 
 motor_control_pkg_generate_messages_cpp: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_cpp
 motor_control_pkg_generate_messages_cpp: /home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWrite.h

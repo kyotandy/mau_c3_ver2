@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/kyota/mau_c3_ver2/build
 include motor_control_pkg/CMakeFiles/_motor_control_pkg_generate_messages_check_deps_ModbusWrite.dir/progress.make
 
 motor_control_pkg/CMakeFiles/_motor_control_pkg_generate_messages_check_deps_ModbusWrite:
-	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py motor_control_pkg /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv 
+	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py motor_control_pkg /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg 
 
 _motor_control_pkg_generate_messages_check_deps_ModbusWrite: motor_control_pkg/CMakeFiles/_motor_control_pkg_generate_messages_check_deps_ModbusWrite
 _motor_control_pkg_generate_messages_check_deps_ModbusWrite: motor_control_pkg/CMakeFiles/_motor_control_pkg_generate_messages_check_deps_ModbusWrite.dir/build.make

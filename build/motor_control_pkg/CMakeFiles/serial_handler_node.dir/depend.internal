@@ -3,8 +3,6 @@
 
 motor_control_pkg/CMakeFiles/serial_handler_node.dir/src/serial_handler_node.cpp.o
  /home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWrite.h
- /home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWriteRequest.h
- /home/kyota/mau_c3_ver2/devel/include/motor_control_pkg/ModbusWriteResponse.h
  /home/kyota/mau_c3_ver2/src/motor_control_pkg/src/serial_handler_node.cpp
  /opt/ros/noetic/include/ros/advertise_options.h
  /opt/ros/noetic/include/ros/advertise_service_options.h

@@ -53,21 +53,21 @@ CMAKE_BINARY_DIR = /home/kyota/mau_c3_ver2/build
 # Include the progress variables for this target.
 include motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_eus.dir/progress.make
 
-motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_eus: /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/srv/ModbusWrite.l
+motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_eus: /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/msg/ModbusWrite.l
 motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_eus: /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/manifest.l
 
 
-/home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/srv/ModbusWrite.l: /opt/ros/noetic/lib/geneus/gen_eus.py
-/home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/srv/ModbusWrite.l: /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from motor_control_pkg/ModbusWrite.srv"
-	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/srv
+/home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/msg/ModbusWrite.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/msg/ModbusWrite.l: /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from motor_control_pkg/ModbusWrite.msg"
+	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg -Imotor_control_pkg:/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/msg
 
 /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/manifest.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp manifest code for motor_control_pkg"
 	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg motor_control_pkg std_msgs
 
 motor_control_pkg_generate_messages_eus: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_eus
-motor_control_pkg_generate_messages_eus: /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/srv/ModbusWrite.l
+motor_control_pkg_generate_messages_eus: /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/msg/ModbusWrite.l
 motor_control_pkg_generate_messages_eus: /home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/manifest.l
 motor_control_pkg_generate_messages_eus: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_eus.dir/build.make
 

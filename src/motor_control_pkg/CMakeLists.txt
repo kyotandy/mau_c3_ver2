@@ -52,17 +52,16 @@ pkg_check_modules(LIBMODBUS REQUIRED libmodbus)
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  ModbusWrite.msg
+  )
 
 ## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  ModbusWrite.srv
-  )
+#add_service_files(
+#  FILES
+#  ModbusWrite.srv
+#  )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -133,12 +132,14 @@ include_directories(
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(serial_handler_node src/serial_handler_node.cpp)
+
+add_dependencies(serial_handler_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

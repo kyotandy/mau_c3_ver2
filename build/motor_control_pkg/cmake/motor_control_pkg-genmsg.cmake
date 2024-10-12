@@ -1,8 +1,8 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "motor_control_pkg: 0 messages, 1 services")
+message(STATUS "motor_control_pkg: 1 messages, 0 services")
 
-set(MSG_I_FLAGS "-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg")
+set(MSG_I_FLAGS "-Imotor_control_pkg:/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -17,9 +17,9 @@ add_custom_target(motor_control_pkg_generate_messages ALL)
 
 
 
-get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv" NAME_WE)
+get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg" NAME_WE)
 add_custom_target(_motor_control_pkg_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "motor_control_pkg" "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "motor_control_pkg" "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg" ""
 )
 
 #
@@ -28,14 +28,14 @@ add_custom_target(_motor_control_pkg_generate_messages_check_deps_${_filename}
 
 ### Section generating for lang: gencpp
 ### Generating Messages
-
-### Generating Services
-_generate_srv_cpp(motor_control_pkg
-  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv"
+_generate_msg_cpp(motor_control_pkg
+  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/motor_control_pkg
 )
+
+### Generating Services
 
 ### Generating Module File
 _generate_module_cpp(motor_control_pkg
@@ -49,7 +49,7 @@ add_custom_target(motor_control_pkg_generate_messages_cpp
 add_dependencies(motor_control_pkg_generate_messages motor_control_pkg_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv" NAME_WE)
+get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg" NAME_WE)
 add_dependencies(motor_control_pkg_generate_messages_cpp _motor_control_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -61,14 +61,14 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS motor_control_pkg_generate_messages
 
 ### Section generating for lang: geneus
 ### Generating Messages
-
-### Generating Services
-_generate_srv_eus(motor_control_pkg
-  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv"
+_generate_msg_eus(motor_control_pkg
+  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/motor_control_pkg
 )
+
+### Generating Services
 
 ### Generating Module File
 _generate_module_eus(motor_control_pkg
@@ -82,7 +82,7 @@ add_custom_target(motor_control_pkg_generate_messages_eus
 add_dependencies(motor_control_pkg_generate_messages motor_control_pkg_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv" NAME_WE)
+get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg" NAME_WE)
 add_dependencies(motor_control_pkg_generate_messages_eus _motor_control_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -94,14 +94,14 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS motor_control_pkg_generate_messages
 
 ### Section generating for lang: genlisp
 ### Generating Messages
-
-### Generating Services
-_generate_srv_lisp(motor_control_pkg
-  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv"
+_generate_msg_lisp(motor_control_pkg
+  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/motor_control_pkg
 )
+
+### Generating Services
 
 ### Generating Module File
 _generate_module_lisp(motor_control_pkg
@@ -115,7 +115,7 @@ add_custom_target(motor_control_pkg_generate_messages_lisp
 add_dependencies(motor_control_pkg_generate_messages motor_control_pkg_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv" NAME_WE)
+get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg" NAME_WE)
 add_dependencies(motor_control_pkg_generate_messages_lisp _motor_control_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -127,14 +127,14 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS motor_control_pkg_generate_messages
 
 ### Section generating for lang: gennodejs
 ### Generating Messages
-
-### Generating Services
-_generate_srv_nodejs(motor_control_pkg
-  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv"
+_generate_msg_nodejs(motor_control_pkg
+  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/motor_control_pkg
 )
+
+### Generating Services
 
 ### Generating Module File
 _generate_module_nodejs(motor_control_pkg
@@ -148,7 +148,7 @@ add_custom_target(motor_control_pkg_generate_messages_nodejs
 add_dependencies(motor_control_pkg_generate_messages motor_control_pkg_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv" NAME_WE)
+get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg" NAME_WE)
 add_dependencies(motor_control_pkg_generate_messages_nodejs _motor_control_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -160,14 +160,14 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS motor_control_pkg_generate_messages
 
 ### Section generating for lang: genpy
 ### Generating Messages
-
-### Generating Services
-_generate_srv_py(motor_control_pkg
-  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv"
+_generate_msg_py(motor_control_pkg
+  "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/motor_control_pkg
 )
+
+### Generating Services
 
 ### Generating Module File
 _generate_module_py(motor_control_pkg
@@ -181,7 +181,7 @@ add_custom_target(motor_control_pkg_generate_messages_py
 add_dependencies(motor_control_pkg_generate_messages motor_control_pkg_generate_messages_py)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv" NAME_WE)
+get_filename_component(_filename "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg" NAME_WE)
 add_dependencies(motor_control_pkg_generate_messages_py _motor_control_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

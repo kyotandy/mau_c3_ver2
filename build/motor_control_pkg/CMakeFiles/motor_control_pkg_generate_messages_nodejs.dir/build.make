@@ -53,16 +53,16 @@ CMAKE_BINARY_DIR = /home/kyota/mau_c3_ver2/build
 # Include the progress variables for this target.
 include motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_nodejs.dir/progress.make
 
-motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_nodejs: /home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/srv/ModbusWrite.js
+motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_nodejs: /home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/msg/ModbusWrite.js
 
 
-/home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/srv/ModbusWrite.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
-/home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/srv/ModbusWrite.js: /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from motor_control_pkg/ModbusWrite.srv"
-	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/srv
+/home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/msg/ModbusWrite.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/msg/ModbusWrite.js: /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from motor_control_pkg/ModbusWrite.msg"
+	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg -Imotor_control_pkg:/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/msg
 
 motor_control_pkg_generate_messages_nodejs: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_nodejs
-motor_control_pkg_generate_messages_nodejs: /home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/srv/ModbusWrite.js
+motor_control_pkg_generate_messages_nodejs: /home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/msg/ModbusWrite.js
 motor_control_pkg_generate_messages_nodejs: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_nodejs.dir/build.make
 
 .PHONY : motor_control_pkg_generate_messages_nodejs

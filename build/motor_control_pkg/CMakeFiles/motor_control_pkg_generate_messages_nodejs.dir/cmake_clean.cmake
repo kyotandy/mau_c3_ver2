@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "/home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/srv/ModbusWrite.js"
+  "/home/kyota/mau_c3_ver2/devel/share/gennodejs/ros/motor_control_pkg/msg/ModbusWrite.js"
   "CMakeFiles/motor_control_pkg_generate_messages_nodejs"
 )
 

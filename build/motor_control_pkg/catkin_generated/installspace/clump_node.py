@@ -2,7 +2,8 @@
 import rospy
 from std_msgs.msg import String
 import threading
-from motor_control_pkg.srv import ModbusWrite, ModbusWriteRequest
+from motor_control_pkg.msg import ModbusWrite
+
 
 clump_status_dict = {
     'ALL_OFF': '0',
@@ -19,14 +20,8 @@ class ClumpPositionNode:
 
         # ROSノードの初期化
         rospy.init_node('clump_position_node', anonymous=True)
-        self.clump_position_sub = rospy.Subscriber('/clump_position', String, self.callback, queue_size=1)
-
-        # サービスが利用可能になるのを待つ
-        rospy.wait_for_service('modbus_write')
-        
-        # Modbus書き込みサービスのプロキシを作成
-        self.modbus_write_service = rospy.ServiceProxy('modbus_write', ModbusWrite)
-
+        self.clump_position_sub = rospy.Subscriber('/clump_position', String, self.callback, queue_size=10)
+        self.modbus_write_pub = rospy.Publisher('/modbus_request', ModbusWrite, queue_size=1)
         # 初期設定
         self.presetting()
 
@@ -45,13 +40,13 @@ class ClumpPositionNode:
     def send_modbus_command(self, address, data, slave_id):
         try:
             # サービスリクエストを作成
-            request = ModbusWriteRequest()
+            request = ModbusWrite()
             request.address = address
             request.data = data
             request.slave_id = slave_id
 
             # サービスを呼び出す
-            response = self.modbus_write_service(request)
+            response = self.modbus_write_pub.publish(request)
 
         except rospy.ServiceException as e:
             rospy.logerr(f"Service call failed: {e}")
@@ -73,8 +68,8 @@ class ClumpPositionNode:
 
     def start_move(self):
         if self.clump_status == clump_status_dict['ALL_OFF']:
-            threading.Thread(target=self.write_clump_movement, args=(1500, self.forward_slave_id)).start()
-            threading.Thread(target=self.write_clump_movement, args=(1500, self.backward_slave_id)).start()
+            threading.Thread(target=self.write_clump_movement, args=(1800, self.forward_slave_id)).start()
+            threading.Thread(target=self.write_clump_movement, args=(1800, self.backward_slave_id)).start()
         elif self.clump_status == clump_status_dict['FORWARD_ON']:
             threading.Thread(target=self.write_clump_movement, args=(0, self.forward_slave_id)).start()
             threading.Thread(target=self.write_clump_movement, args=(1500, self.backward_slave_id)).start()

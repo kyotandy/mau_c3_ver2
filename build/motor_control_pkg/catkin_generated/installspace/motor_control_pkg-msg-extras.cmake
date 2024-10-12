@@ -1,2 +1,2 @@
-set(motor_control_pkg_MESSAGE_FILES "")
-set(motor_control_pkg_SERVICE_FILES "srv/ModbusWrite.srv")
+set(motor_control_pkg_MESSAGE_FILES "msg/ModbusWrite.msg")
+set(motor_control_pkg_SERVICE_FILES "")

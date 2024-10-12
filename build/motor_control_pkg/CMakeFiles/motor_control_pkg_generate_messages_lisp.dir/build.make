@@ -53,16 +53,16 @@ CMAKE_BINARY_DIR = /home/kyota/mau_c3_ver2/build
 # Include the progress variables for this target.
 include motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_lisp.dir/progress.make
 
-motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_lisp: /home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/srv/ModbusWrite.lisp
+motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_lisp: /home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/msg/ModbusWrite.lisp
 
 
-/home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/srv/ModbusWrite.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
-/home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/srv/ModbusWrite.lisp: /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from motor_control_pkg/ModbusWrite.srv"
-	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/srv
+/home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/msg/ModbusWrite.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/msg/ModbusWrite.lisp: /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from motor_control_pkg/ModbusWrite.msg"
+	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg -Imotor_control_pkg:/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/msg
 
 motor_control_pkg_generate_messages_lisp: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_lisp
-motor_control_pkg_generate_messages_lisp: /home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/srv/ModbusWrite.lisp
+motor_control_pkg_generate_messages_lisp: /home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/msg/ModbusWrite.lisp
 motor_control_pkg_generate_messages_lisp: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_lisp.dir/build.make
 
 .PHONY : motor_control_pkg_generate_messages_lisp

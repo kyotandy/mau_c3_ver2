@@ -38,7 +38,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/motor_control_pkg/srv" TYPE FILE FILES "/home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/motor_control_pkg/msg" TYPE FILE FILES "/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

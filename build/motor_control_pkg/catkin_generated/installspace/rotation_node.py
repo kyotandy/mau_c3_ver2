@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from std_msgs.msg import String
-from motor_control_pkg.srv import ModbusWrite, ModbusWriteRequest
-
+from motor_control_pkg.msg import ModbusWrite
 rotation_status_dict = {
     'LEFT': '0',
     'CENTER': '1',
@@ -16,12 +15,7 @@ class RotationPositionNode:
         self.rotation_status = rotation_status_dict['CENTER']
         self.slave_id = 1
         self.rotation_position_sub = rospy.Subscriber('/rotation_position', String, self.callback, queue_size=1)
-
-        # サービスが利用可能になるのを待つ
-        rospy.wait_for_service('modbus_write')
-        
-        # Modbus書き込みサービスのプロキシを作成
-        self.modbus_write_service = rospy.ServiceProxy('modbus_write', ModbusWrite)
+        self.modbus_write_pub = rospy.Publisher('/modbus_request', ModbusWrite, queue_size=1)
 
         # 初期設定
         self.presetting()
@@ -36,13 +30,13 @@ class RotationPositionNode:
     def send_modbus_command(self, address, data, slave_id):
         try:
             # サービスリクエストを作成
-            request = ModbusWriteRequest()
+            request = ModbusWrite()
             request.address = address
             request.data = data
             request.slave_id = slave_id
 
             # サービスを呼び出す
-            response = self.modbus_write_service(request)
+            response = self.modbus_write_pub.publish(request)
 
         except rospy.ServiceException as e:
             rospy.logerr(f"Service call failed: {e}")

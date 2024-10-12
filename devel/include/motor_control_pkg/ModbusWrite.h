@@ -5,119 +5,215 @@
 #ifndef MOTOR_CONTROL_PKG_MESSAGE_MODBUSWRITE_H
 #define MOTOR_CONTROL_PKG_MESSAGE_MODBUSWRITE_H
 
-#include <ros/service_traits.h>
 
+#include <string>
+#include <vector>
+#include <memory>
 
-#include <motor_control_pkg/ModbusWriteRequest.h>
-#include <motor_control_pkg/ModbusWriteResponse.h>
+#include <ros/types.h>
+#include <ros/serialization.h>
+#include <ros/builtin_message_traits.h>
+#include <ros/message_operations.h>
 
 
 namespace motor_control_pkg
 {
-
-struct ModbusWrite
+template <class ContainerAllocator>
+struct ModbusWrite_
 {
+  typedef ModbusWrite_<ContainerAllocator> Type;
 
-typedef ModbusWriteRequest Request;
-typedef ModbusWriteResponse Response;
-Request request;
-Response response;
+  ModbusWrite_()
+    : address(0)
+    , data()
+    , slave_id(0)  {
+    }
+  ModbusWrite_(const ContainerAllocator& _alloc)
+    : address(0)
+    , data(_alloc)
+    , slave_id(0)  {
+  (void)_alloc;
+    }
 
-typedef Request RequestType;
-typedef Response ResponseType;
 
-}; // struct ModbusWrite
+
+   typedef int32_t _address_type;
+  _address_type address;
+
+   typedef std::vector<int32_t, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<int32_t>> _data_type;
+  _data_type data;
+
+   typedef int32_t _slave_id_type;
+  _slave_id_type slave_id;
+
+
+
+
+
+  typedef boost::shared_ptr< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> > Ptr;
+  typedef boost::shared_ptr< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> const> ConstPtr;
+
+}; // struct ModbusWrite_
+
+typedef ::motor_control_pkg::ModbusWrite_<std::allocator<void> > ModbusWrite;
+
+typedef boost::shared_ptr< ::motor_control_pkg::ModbusWrite > ModbusWritePtr;
+typedef boost::shared_ptr< ::motor_control_pkg::ModbusWrite const> ModbusWriteConstPtr;
+
+// constants requiring out of line definition
+
+
+
+template<typename ContainerAllocator>
+std::ostream& operator<<(std::ostream& s, const ::motor_control_pkg::ModbusWrite_<ContainerAllocator> & v)
+{
+ros::message_operations::Printer< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >::stream(s, "", v);
+return s;
+}
+
+
+template<typename ContainerAllocator1, typename ContainerAllocator2>
+bool operator==(const ::motor_control_pkg::ModbusWrite_<ContainerAllocator1> & lhs, const ::motor_control_pkg::ModbusWrite_<ContainerAllocator2> & rhs)
+{
+  return lhs.address == rhs.address &&
+    lhs.data == rhs.data &&
+    lhs.slave_id == rhs.slave_id;
+}
+
+template<typename ContainerAllocator1, typename ContainerAllocator2>
+bool operator!=(const ::motor_control_pkg::ModbusWrite_<ContainerAllocator1> & lhs, const ::motor_control_pkg::ModbusWrite_<ContainerAllocator2> & rhs)
+{
+  return !(lhs == rhs);
+}
+
+
 } // namespace motor_control_pkg
-
 
 namespace ros
 {
-namespace service_traits
+namespace message_traits
 {
 
 
-template<>
-struct MD5Sum< ::motor_control_pkg::ModbusWrite > {
+
+
+
+template <class ContainerAllocator>
+struct IsMessage< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >
+  : TrueType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> const>
+  : TrueType
+  { };
+
+template <class ContainerAllocator>
+struct IsFixedSize< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >
+  : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct IsFixedSize< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> const>
+  : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct HasHeader< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >
+  : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct HasHeader< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> const>
+  : FalseType
+  { };
+
+
+template<class ContainerAllocator>
+struct MD5Sum< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >
+{
   static const char* value()
   {
-    return "1d0506667b2278e5081b9ba14a109960";
+    return "d9b9443268afca5c5610972c4da160f6";
   }
 
-  static const char* value(const ::motor_control_pkg::ModbusWrite&) { return value(); }
+  static const char* value(const ::motor_control_pkg::ModbusWrite_<ContainerAllocator>&) { return value(); }
+  static const uint64_t static_value1 = 0xd9b9443268afca5cULL;
+  static const uint64_t static_value2 = 0x5610972c4da160f6ULL;
 };
 
-template<>
-struct DataType< ::motor_control_pkg::ModbusWrite > {
+template<class ContainerAllocator>
+struct DataType< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >
+{
   static const char* value()
   {
     return "motor_control_pkg/ModbusWrite";
   }
 
-  static const char* value(const ::motor_control_pkg::ModbusWrite&) { return value(); }
+  static const char* value(const ::motor_control_pkg::ModbusWrite_<ContainerAllocator>&) { return value(); }
 };
 
-
-// service_traits::MD5Sum< ::motor_control_pkg::ModbusWriteRequest> should match
-// service_traits::MD5Sum< ::motor_control_pkg::ModbusWrite >
-template<>
-struct MD5Sum< ::motor_control_pkg::ModbusWriteRequest>
+template<class ContainerAllocator>
+struct Definition< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return MD5Sum< ::motor_control_pkg::ModbusWrite >::value();
+    return "int32 address\n"
+"int32[] data\n"
+"int32 slave_id\n"
+;
   }
-  static const char* value(const ::motor_control_pkg::ModbusWriteRequest&)
-  {
-    return value();
-  }
+
+  static const char* value(const ::motor_control_pkg::ModbusWrite_<ContainerAllocator>&) { return value(); }
 };
 
-// service_traits::DataType< ::motor_control_pkg::ModbusWriteRequest> should match
-// service_traits::DataType< ::motor_control_pkg::ModbusWrite >
-template<>
-struct DataType< ::motor_control_pkg::ModbusWriteRequest>
+} // namespace message_traits
+} // namespace ros
+
+namespace ros
 {
-  static const char* value()
-  {
-    return DataType< ::motor_control_pkg::ModbusWrite >::value();
-  }
-  static const char* value(const ::motor_control_pkg::ModbusWriteRequest&)
-  {
-    return value();
-  }
-};
-
-// service_traits::MD5Sum< ::motor_control_pkg::ModbusWriteResponse> should match
-// service_traits::MD5Sum< ::motor_control_pkg::ModbusWrite >
-template<>
-struct MD5Sum< ::motor_control_pkg::ModbusWriteResponse>
+namespace serialization
 {
-  static const char* value()
-  {
-    return MD5Sum< ::motor_control_pkg::ModbusWrite >::value();
-  }
-  static const char* value(const ::motor_control_pkg::ModbusWriteResponse&)
-  {
-    return value();
-  }
-};
 
-// service_traits::DataType< ::motor_control_pkg::ModbusWriteResponse> should match
-// service_traits::DataType< ::motor_control_pkg::ModbusWrite >
-template<>
-struct DataType< ::motor_control_pkg::ModbusWriteResponse>
+  template<class ContainerAllocator> struct Serializer< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >
+  {
+    template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
+    {
+      stream.next(m.address);
+      stream.next(m.data);
+      stream.next(m.slave_id);
+    }
+
+    ROS_DECLARE_ALLINONE_SERIALIZER
+  }; // struct ModbusWrite_
+
+} // namespace serialization
+} // namespace ros
+
+namespace ros
 {
-  static const char* value()
+namespace message_operations
+{
+
+template<class ContainerAllocator>
+struct Printer< ::motor_control_pkg::ModbusWrite_<ContainerAllocator> >
+{
+  template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::motor_control_pkg::ModbusWrite_<ContainerAllocator>& v)
   {
-    return DataType< ::motor_control_pkg::ModbusWrite >::value();
-  }
-  static const char* value(const ::motor_control_pkg::ModbusWriteResponse&)
-  {
-    return value();
+    s << indent << "address: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.address);
+    s << indent << "data[]" << std::endl;
+    for (size_t i = 0; i < v.data.size(); ++i)
+    {
+      s << indent << "  data[" << i << "]: ";
+      Printer<int32_t>::stream(s, indent + "  ", v.data[i]);
+    }
+    s << indent << "slave_id: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.slave_id);
   }
 };
 
-} // namespace service_traits
+} // namespace message_operations
 } // namespace ros
 
 #endif // MOTOR_CONTROL_PKG_MESSAGE_MODBUSWRITE_H

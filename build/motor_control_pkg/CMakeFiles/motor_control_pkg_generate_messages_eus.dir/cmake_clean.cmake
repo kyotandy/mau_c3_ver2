@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "/home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/manifest.l"
-  "/home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/srv/ModbusWrite.l"
+  "/home/kyota/mau_c3_ver2/devel/share/roseus/ros/motor_control_pkg/msg/ModbusWrite.l"
   "CMakeFiles/motor_control_pkg_generate_messages_eus"
 )
 

@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "/home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/srv/ModbusWrite.lisp"
+  "/home/kyota/mau_c3_ver2/devel/share/common-lisp/ros/motor_control_pkg/msg/ModbusWrite.lisp"
   "CMakeFiles/motor_control_pkg_generate_messages_lisp"
 )
 

@@ -53,22 +53,29 @@ CMAKE_BINARY_DIR = /home/kyota/mau_c3_ver2/build
 # Include the progress variables for this target.
 include motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_py.dir/progress.make
 
-motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/_ModbusWrite.py
+motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/_ModbusWrite.py
+motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/__init__.py
 motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/__init__.py
 
 
-/home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/_ModbusWrite.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
-/home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/_ModbusWrite.py: /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python code from SRV motor_control_pkg/ModbusWrite"
-	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/srv/ModbusWrite.srv -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv
+/home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/_ModbusWrite.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/_ModbusWrite.py: /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python from MSG motor_control_pkg/ModbusWrite"
+	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/kyota/mau_c3_ver2/src/motor_control_pkg/msg/ModbusWrite.msg -Imotor_control_pkg:/home/kyota/mau_c3_ver2/src/motor_control_pkg/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p motor_control_pkg -o /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg
+
+/home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/__init__.py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/_ModbusWrite.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python msg __init__.py for motor_control_pkg"
+	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg --initpy
 
 /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
-/home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/__init__.py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/_ModbusWrite.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python srv __init__.py for motor_control_pkg"
+/home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/__init__.py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/_ModbusWrite.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kyota/mau_c3_ver2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python srv __init__.py for motor_control_pkg"
 	cd /home/kyota/mau_c3_ver2/build/motor_control_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv --initpy
 
 motor_control_pkg_generate_messages_py: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_py
-motor_control_pkg_generate_messages_py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/_ModbusWrite.py
+motor_control_pkg_generate_messages_py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/_ModbusWrite.py
+motor_control_pkg_generate_messages_py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/msg/__init__.py
 motor_control_pkg_generate_messages_py: /home/kyota/mau_c3_ver2/devel/lib/python3/dist-packages/motor_control_pkg/srv/__init__.py
 motor_control_pkg_generate_messages_py: motor_control_pkg/CMakeFiles/motor_control_pkg_generate_messages_py.dir/build.make
 

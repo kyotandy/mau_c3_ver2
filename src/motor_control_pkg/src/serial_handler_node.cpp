@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include <motor_control_pkg/ModbusWrite.h> // カスタムサービスのインポート
+#include <motor_control_pkg/ModbusWrite.h>
 #include <modbus/modbus.h>
 #include <mutex>
 #include <vector>
@@ -7,10 +7,10 @@
 
 class SerialHandlerNode {
 public:
-    SerialHandlerNode() {
+    SerialHandlerNode() : last_modbus_time(ros::Time::now()) {
         // Modbus client の初期化
         ctx = modbus_new_rtu("/dev/ttyUSB0", 115200, 'E', 8, 1); // パリティは Even, ストップビットは 1
-        modbus_set_response_timeout(ctx, 1, 0);
+        modbus_set_response_timeout(ctx, 1, 0); // タイムアウト1秒
 
         if (ctx == NULL) {
             ROS_ERROR("Unable to create the Modbus context");
@@ -23,39 +23,34 @@ public:
             exit(1);
         }
 
-        // サービスを作成
-        service = nh.advertiseService("modbus_write", &SerialHandlerNode::handleWriteRequest, this);
+        // サブスクライバーを作成
+        sub = nh.subscribe("modbus_request", 1000, &SerialHandlerNode::handleModbusRequest, this);
     }
 
-    bool handleWriteRequest(motor_control_pkg::ModbusWrite::Request &req,
-                            motor_control_pkg::ModbusWrite::Response &res) {
-        std::lock_guard<std::mutex> lock(modbus_mutex);
+    void handleModbusRequest(const motor_control_pkg::ModbusWrite::ConstPtr& req) {
+        std::unique_lock<std::mutex> lock(modbus_mutex);
 
-        int rc = modbus_set_slave(ctx, req.slave_id);
+        // Modbus slave IDの設定
+        int rc = modbus_set_slave(ctx, req->slave_id);
         if (rc == -1) {
             ROS_ERROR("Failed to set Modbus slave ID");
-            res.success = false;
-            res.message = "Failed to set slave ID";
-            return false;
+            return;
         }
 
         // リクエストされたデータを書き込む
-        std::vector<uint16_t> data(req.data.size());
-        for (size_t i = 0; i < req.data.size(); ++i) {
-            data[i] = static_cast<uint16_t>(req.data[i]);  // int から uint16_t へキャスト
-        }
-    
-        rc = modbus_write_registers(ctx, req.address, data.size(), data.data());
-        if (rc == -1) {
-            ROS_ERROR("Modbus write failed: %s", modbus_strerror(errno));
-            res.success = false;
-            res.message = modbus_strerror(errno);
-            return false;
+        std::vector<uint16_t> data(req->data.size());
+        for (size_t i = 0; i < req->data.size(); ++i) {
+            data[i] = static_cast<uint16_t>(req->data[i]);  // int から uint16_t へキャスト
         }
 
-        res.success = true;
-        res.message = "Write successful";
-        return true;
+        // Modbusレジスタに書き込み
+        rc = modbus_write_registers(ctx, req->address, data.size(), data.data());
+        if (rc == -1) {
+            ROS_ERROR("Modbus write failed: %s", modbus_strerror(errno));
+            return;
+        }
+
+        ROS_INFO("Modbus write successful");
     }
 
     void run() {
@@ -69,9 +64,10 @@ public:
 
 private:
     ros::NodeHandle nh;
-    ros::ServiceServer service;
+    ros::Subscriber sub;
     modbus_t *ctx; // Modbusコンテキスト
     std::mutex modbus_mutex; // スレッドセーフのためのミューテックス
+    ros::Time last_modbus_time; // 最後にModbus通信を行った時間
 };
 
 int main(int argc, char **argv) {

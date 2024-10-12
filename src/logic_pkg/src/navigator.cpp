@@ -126,8 +126,14 @@ public:
             left_motor_speed_ = 0;
             right_motor_speed_ = 0;
         } else if (wheel_cmd == wheel_status_dict["WHEEL_STRAIGHT"]) {
-            left_motor_speed_ = 100;
-            right_motor_speed_ = 100 + abs(speed_weight);
+            if (speed_weight < 0) {
+                left_motor_speed_ = 100;
+                right_motor_speed_ = 100 + abs(speed_weight);
+            } else if (speed_weight > 0) {
+                left_motor_speed_ = 100 + abs(speed_weight);
+                right_motor_speed_ = 100;
+            }
+
         } else if (wheel_cmd == wheel_status_dict["WHEEL_LEFT"]) {
             left_motor_speed_ = -50;
             right_motor_speed_ = 50;
@@ -135,6 +141,8 @@ public:
             left_motor_speed_ = 50;
             right_motor_speed_ = -50;
         }
+        wheel_speeds_msg_.data[0] = left_motor_speed_;
+        wheel_speeds_msg_.data[1] = right_motor_speed_;
     }
 
     // ロボットのステータスを設定
@@ -162,6 +170,7 @@ public:
         float arc_distance_mm = msg->data[2];
         int pause_signal = static_cast<int>(msg->data[3]);
         float motor_speed_weight = motor_speed_fuzzy(offset_mm, angle_deg);
+        ROS_INFO("robot status: %s, offset: %.2f", robot_status_.c_str(), offset_mm);
 
         if (robot_status_ == robot_status_dict["STRAIGHT"]) {
             if (abs(offset_mm) <= acceptable_offset_mm_) {

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from std_msgs.msg import String
-from motor_control_pkg.srv import ModbusWrite, ModbusWriteRequest
+from motor_control_pkg.msg import ModbusWrite
 
 rail_status_dict = {
     'RAIL_OFF': '0',
@@ -13,12 +13,8 @@ class RailNode:
         # ROSノードの初期化
         rospy.init_node('rail_positioning_node', anonymous=True)
         self.rail_moving_info_subscriber = rospy.Subscriber('/rail_position', String, self.callback, queue_size=1)
+        self.modbus_write_pub = rospy.Publisher('/modbus_request', ModbusWrite, queue_size=1)
 
-        # サービスが利用可能になるのを待つ
-        rospy.wait_for_service('modbus_write')
-        
-        # Modbus書き込みサービスのプロキシを作成
-        self.modbus_write_service = rospy.ServiceProxy('modbus_write', ModbusWrite)
 
         self.rail_status = rail_status_dict['RAIL_OFF']
         self.slave_id = 4
@@ -51,13 +47,13 @@ class RailNode:
     def send_modbus_command(self, address, data, slave_id):
         try:
             # サービスリクエストを作成
-            request = ModbusWriteRequest()
+            request = ModbusWrite()
             request.address = address
             request.data = data
             request.slave_id = slave_id
 
             # サービスを呼び出す
-            response = self.modbus_write_service(request)
+            response = self.modbus_write_pub.publish(request)
 
         except rospy.ServiceException as e:
             rospy.logerr(f"Service call failed: {e}")

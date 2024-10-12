@@ -153,6 +153,7 @@ class ImageSubscriber:
 
         # Display the image with the detected line, offset, angle, and cross
         cv2.imshow("Blue Line Detection", cv_image)
+        cv2.imshow("green mask", green_mask)
         cv2.waitKey(1)
 
 
